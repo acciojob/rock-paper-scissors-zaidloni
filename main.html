@@ -1,16 +1,35 @@
 <!DOCTYPE html>
 
 <html>
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-<head>
-	<link rel="stylesheet" href="styles.css">
-</head>
+  <body>
+    <!-- the entire body must be written by student -->
+    <div class="container">
+      <label for="turns">Number of Turns</label>
+      <input type="number" id="turns" value="0" data-ns-test="game-number" />
 
-<body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+      <div class="user-choice" hidden>
+        <button data-ns-test="rock">ROCK</button>
+        <button data-ns-test="paper">PAPER</button>
+        <button data-ns-test="scissors">SCISSORS</button>
+      </div>
 
-</body>
+      <div data-ns-test="computer-choose"></div>
 
+      <div>
+        <span data-ns-test="rounds-left"></span>
+        <span data-ns-test="user-points">0</span>
+        <span data-ns-test="computer-points">0</span>
+      </div>
+
+      <div data-ns-test="round-result"></div>
+      <div data-ns-test="game-result"></div>
+
+      <button data-ns-test="play-game">Play</button>
+    </div>
+    <script type="text/javascript" src="./script.js"></script>
+  </body>
 </html>
