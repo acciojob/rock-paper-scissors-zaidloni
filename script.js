@@ -1,100 +1,113 @@
-var computerChoose = ["ROCK", "PAPER", "SCISSORS"];
-var getRandomChoice = () => computerChoose[Math.floor(Math.random() * 3)];
-var computerChoice = document.querySelector('[data-ns-test="computer-choose"]');
-var userChoice = document.querySelector(".user-choice");
-var turnsInput = document.querySelector("#turns");
-var turnsLeft = document.querySelector('[data-ns-test="rounds-left"]');
+var gameNumberEl = document.getElementById("game-number");
+  var gameContainerEl = document.getElementById("game-container");
+  var rockBtnEl = document.getElementById("rock");
+  var paperBtnEl = document.getElementById("paper");
+  var scissorBtnEl = document.getElementById("scissors");
+  var computerChooseEl = document.getElementById("computer-choose");
+  var roundResultEl = document.getElementById("round-result");
+  var userPointsEl = document.getElementById("user-points");
+  var computerPointsEl = document.getElementById("computer-points");
+  var roundsLeftEl = document.getElementById("rounds-left");
+  var gameResultEl = document.getElementById("game-result");
+ 
 
-var userPoint = document.querySelector('[data-ns-test="user-points"]');
-var computerPoint = document.querySelector('[data-ns-test="computer-points"]');
-var roundResult = document.querySelector('[data-ns-test="round-result"]');
-var gameResult = document.querySelector('[data-ns-test="game-result"]');
+  const ROCK = 0;
+  const PAPER = 1;
+  const SCISSORS = 2;
+ 
 
-const playButton = document.querySelector('[data-ns-test="play-game"]');
-playButton.addEventListener("click", startGame);
+  function playGame() {
+  userPoints = 0;
+  userPointsEl.innerText = 0;
+  computerPoints = 0;
+  computerPointsEl.innerText = 0;
+ 
 
-function startGame(event) {
-  turnsLeft.innerText = turnsInput.value;
-
-  if (turnsLeft.innerText > 0) {
-    userChoice.hidden = false;
+  roundsLeft = parseInt(gameNumberEl.value, 10);
+  if (roundsLeft < 0) {
+  alert("Number of turns cannot be -ve");
   } else {
-    userChoice.hidden = true;
+  roundsLeftEl.innerText = roundsLeft;
+  gameContainerEl.style.display = "block";
+ 
+
+  gameResultEl.style.display = "none";
   }
-  var allUserButtons = document.querySelectorAll(".user-choice > *");
-  for (const userButton of allUserButtons) {
-    userButton.addEventListener("click", handleClick);
   }
+ 
 
-  //
-  function handleClick(event) {
-    userChoice.hidden = false;
+  // game variables
+  var userPoints = 0;
+  var computerPoints = 0;
+  var roundsLeft = parseInt(gameNumberEl.value, 10);
+  roundsLeftEl.innerText = roundsLeft;
+ 
 
-    let userOption = event.target.innerText;
-    let computerOption = getRandomChoice();
-    if (userOption == "ROCK") {
-      if (computerOption == "PAPER") {
-        // increase computer points
-        increaseComputerPoints();
-      } else if (computerOption == "SCISSORS") {
-        // increase user points
-        increaseUserPoints();
-      } else {
-        // it's a tie
-        roundResult.innerText = "TIE";
-      }
-    } else if (userOption == "PAPER") {
-      if (computerOption == "SCISSORS") {
-        // increase computer points
-        increaseComputerPoints();
-      } else if (computerOption == "ROCK") {
-        // increase user points
-        increaseUserPoints();
-      } else {
-        // it's a tie
-        roundResult.innerText = "TIE";
-      }
-    } else {
-      // userOption is SCISSORS
-      if (computerOption == "ROCK") {
-        // increase computer points
-        increaseComputerPoints();
-      } else if (computerOption == "PAPER") {
-        // increase user points
-        increaseUserPoints();
-      } else {
-        // it's a tie
-        roundResult.innerText = "TIE";
-      }
-    }
-    computerChoice.innerText = computerOption;
-    turnsLeft.innerText -= 1;
+ 
 
-    if (turnsLeft.innerText == 0) {
-      // render game result
-      userChoice.hidden = true;
-      let currentUserPoints = Number(userPoint.innerText);
-      let currentComputerPoints = Number(computerPoint.innerText);
+  function userChoose(e) {
+ 
 
-      if (currentUserPoints > currentComputerPoints) {
-        gameResult.innerText = "WON";
-      } else if (currentUserPoints < currentComputerPoints) {
-        gameResult.innerText = "LOSE";
-      } else {
-        gameResult.innerText = "TIE";
-      }
-    }
+  if (roundsLeft <= 0) return;
+ 
+
+  const choices = ["ROCK", "PAPER", "SCISSORS"];
+  const outcomes = ["WON", "TIE", "LOSE"];
+  const userChoose = parseInt(e.target.value, 10);
+  const computerChoose = Math.floor(Math.random() * 3);
+  window.computerChoose = computerChoose
+  console.log(window.computerChoose);
+  computerChooseEl.innerText = choices[computerChoose];
+  var outcome = 1; // [win, tie, loose]
+ 
+
+  if ((choices[computerChoose] == 'ROCK' && choices[userChoose] == 'PAPER') || (choices[computerChoose] == 'SCISSORS' && choices[userChoose] == 'ROCK') || (choices[computerChoose] == 'PAPER' && choices[userChoose] == 'SCISSORS')) {
+  // use Wins
+  outcome = 0;
+  userPoints += 1;
+  } else if ((choices[computerChoose] == 'PAPER' && choices[userChoose] == 'ROCK') || (choices[computerChoose] == 'ROCK' && choices[userChoose] == 'SCISSORS') || (choices[computerChoose] == 'SCISSORS' && choices[userChoose] == 'PAPER')) {
+  // lose
+  outcome = 2;
+  computerPoints += 1;
+  } else {
+  // tie
+  outcome = 1;
   }
-}
+ 
 
-function increaseUserPoints() {
-  let currentUserPoints = Number(userPoint.innerText);
-  userPoint.innerText = currentUserPoints + 1;
-  roundResult.innerText = "WON";
-}
+  // setting game variables after move
+  roundsLeft -= 1;
+ 
 
-function increaseComputerPoints() {
-  let currentComputerPoints = Number(computerPoint.innerText);
-  computerPoint.innerText = currentComputerPoints + 1;
-  roundResult.innerText = "LOSE";
-}
+ 
+
+  roundResultEl.innerText = `${outcomes[outcome]}`;
+  roundResultEl.style.display = "block";
+ 
+
+  userPointsEl.innerText = userPoints;
+  computerPointsEl.innerText = computerPoints;
+ 
+
+  roundsLeftEl.innerText = roundsLeft;
+ 
+
+  if (roundsLeft == 0) {
+  // game over
+  gameResultEl.innerText = `${outcomes[userPoints == computerPoints ? 1 : userPoints > computerPoints ? 0 : 2]}`;
+  gameResultEl.style.display = "block";
+ 
+
+  gameContainerEl.style.display = "none";
+ 
+
+  }
+ 
+
+  }
+ 
+
+  // button click
+  rockBtnEl.addEventListener('click', userChoose);
+  paperBtnEl.addEventListener('click', userChoose);
+  scissorBtnEl.addEventListener('click', userChoose);

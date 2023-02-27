@@ -1,35 +1,63 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
 
-  <body>
-    <!-- the entire body must be written by student -->
-    <div class="container">
-      <label for="turns">Number of Turns</label>
-      <input type="number" id="turns" value="0" data-ns-test="game-number" />
+<head>
+	<link rel="stylesheet" href="styles.css">
+</head>
 
-      <div class="user-choice" hidden>
-        <button data-ns-test="rock">ROCK</button>
-        <button data-ns-test="paper">PAPER</button>
-        <button data-ns-test="scissors">SCISSORS</button>
-      </div>
+<body>
+	<!-- the entire body must be written by student -->
+    <h1 class="header">
+		Rock Paper Scissors
+	</h1>
 
-      <div data-ns-test="computer-choose"></div>
 
-      <div>
-        <span data-ns-test="rounds-left"></span>
-        <span data-ns-test="user-points">0</span>
-        <span data-ns-test="computer-points">0</span>
-      </div>
+	<label for="game-number">Number of rounds:-</label>
+	<input type="number" name="game-number" id="game-number" data-ns-test="game-number" />
+	<button id="play-game" data-ns-test="play-game" onclick="playGame()">Play</button>
 
-      <div data-ns-test="round-result"></div>
-      <div data-ns-test="game-result"></div>
 
-      <button data-ns-test="play-game">Play</button>
-    </div>
-    <script type="text/javascript" src="./script.js"></script>
-  </body>
+	<div class="game-container" id="game-container">
+		<div>
+			<button data-ns-test="rock" id="rock" value="0">rock</button>
+			<button data-ns-test="paper" id="paper" value="1">paper</button>
+			<button data-ns-test="scissors" id="scissors" value="2">scissors</button>
+		</div>
+		<div>
+			Computer choose :-
+			<span data-ns-test="computer-choose" id="computer-choose"></span>
+		</div>
+
+
+		<span id="round-result" data-ns-test="round-result">
+			WON
+		</span>
+		<div>
+			User Points :-
+			<span data-ns-test="user-points" id="user-points">0</span>
+
+
+			Computer Points :-
+			<span data-ns-test="computer-points" id="computer-points">0</span>
+		</div>
+		<div>
+
+
+
+
+			Rounds Left :-
+			<span data-ns-test="rounds-left" id="rounds-left">0</span>
+		</div>
+	</div>
+
+
+	<div id="game-result" data-ns-test="game-result">
+		WON
+	</div>
+	<script type="text/javascript" src="./script.js">
+</script>
+
+</body>
+
 </html>
